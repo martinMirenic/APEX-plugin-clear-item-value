@@ -1,0 +1,35 @@
+{
+  "name" : "Clear item value",
+  "version" : "1.0",
+  "description" : "Dynamic action plugin for adding clear item value button to APEX item component.",
+  "keywords" : ["item", "clear", "value", "session", "state"],
+  "homepage" : "https://github.com/martinMirenic/APEX-plugin-clear-item-value",
+  "bugs" : {
+    "url" : "https://github.com/martinMirenic/APEX-plugin-clear-item-value/issues",
+    "email" : "martin.mirenic@gmail.com"
+  },
+  "license" : "MIT",
+  "author" : {
+    "name" : "Martin Mirenic",
+    "email" : "martin.mirenic@gmail.com",
+    "twitter" : "martin_mirenic",
+    "donationUrl" : "",
+    "url" : ""
+  },
+  "repository" : {
+    "type" : "git",
+    "url" : "https://github.com/martinMirenic/APEX-plugin-clear-item-value.git"
+  },
+  "oracle" : {
+    "versions" : ["18.1.0.0", "21.1.0.0"],
+    "apex" : {
+      "versions" : ["23.1.0"],
+      "plugin" : {
+        "internalName" : "HR.MMIRENIC.CLEAR_APEX_ITEM_VALUE",
+        "type" : "dynamic action",
+        "demo" : "https://apex.oracle.com/pls/apex/r/dbp_project/clear-apex-item-value/home",
+        "previewImage" : ""
+      }
+    }
+  }
+}
