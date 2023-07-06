@@ -9,7 +9,7 @@ Dynamic action plugin for adding clear item value button to APEX item component.
 
 ## Plugin Settings
 
-### Component Attribute
+### Component Attributes
 #### Item(s)
 - Type: `Page Items`
 - List of page items that the Clear button will be attached to.
@@ -35,7 +35,7 @@ Dynamic action plugin for adding clear item value button to APEX item component.
 - Default value - No.
 
 ## Demo
-[https://apex.oracle.com/pls/apex/r/dbp_project/clear-apex-item-value/home]
+https://apex.oracle.com/pls/apex/r/dbp_project/clear-apex-item-value/home
 
 ## Preview
 ## ![](https://raw.githubusercontent.com/martinMirenic/APEX-plugin-clear-item-value/main/APEX_clear_item_value.gif)
