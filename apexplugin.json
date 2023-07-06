@@ -28,7 +28,7 @@
         "internalName" : "HR.MMIRENIC.CLEAR_APEX_ITEM_VALUE",
         "type" : "dynamic action",
         "demo" : "https://apex.oracle.com/pls/apex/r/dbp_project/clear-apex-item-value/home",
-        "previewImage" : ""
+        "previewImage" : "https://raw.githubusercontent.com/martinMirenic/APEX-plugin-clear-item-value/main/APEX_clear_item_value.gif"
       }
     }
   }
