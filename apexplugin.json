@@ -13,7 +13,7 @@
     "name" : "Martin Mirenic",
     "email" : "martin.mirenic@gmail.com",
     "twitter" : "martin_mirenic",
-    "donationUrl" : "",
+    "donationUrl" : "https://paypal.me/martinmirenic",
     "url" : ""
   },
   "repository" : {
@@ -23,7 +23,7 @@
   "oracle" : {
     "versions" : ["18.1.0.0", "21.1.0.0"],
     "apex" : {
-      "versions" : ["23.1.0"],
+      "versions" : ["22.2.1","23.1.0"],
       "plugin" : {
         "internalName" : "HR.MMIRENIC.CLEAR_APEX_ITEM_VALUE",
         "type" : "dynamic action",

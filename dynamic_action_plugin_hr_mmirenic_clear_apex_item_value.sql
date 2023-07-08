@@ -5,43 +5,38 @@ whenever sqlerror exit sql.sqlcode rollback
 --
 -- Oracle APEX export file
 --
--- You should run this script using a SQL client connected to the database as
--- the owner (parsing schema) of the application or as a database user with the
--- APEX_ADMINISTRATOR_ROLE role.
---
--- This export file has been automatically generated. Modifying this file is not
--- supported by Oracle and can lead to unexpected application and/or instance
--- behavior now or in the future.
+-- You should run the script connected to SQL*Plus as the owner (parsing schema)
+-- of the application.
 --
 -- NOTE: Calls to apex_application_install override the defaults below.
 --
 --------------------------------------------------------------------------------
 begin
 wwv_flow_imp.import_begin (
- p_version_yyyy_mm_dd=>'2023.04.28'
-,p_release=>'23.1.1'
-,p_default_workspace_id=>34373538278902039777
-,p_default_application_id=>212134
-,p_default_id_offset=>0
-,p_default_owner=>'DBPPROJECT'
+ p_version_yyyy_mm_dd=>'2022.10.07'
+,p_release=>'22.2.1'
+,p_default_workspace_id=>9080708090
+,p_default_application_id=>1000
+,p_default_id_offset=>4076330159576219
+,p_default_owner=>'GIOS_ACCESS'
 );
 end;
 /
  
-prompt APPLICATION 212134 - Plugin x
+prompt APPLICATION 1000 - GROW
 --
 -- Application Export:
---   Application:     212134
---   Name:            Plugin x
---   Date and Time:   19:34 Wednesday July 5, 2023
---   Exported By:     MARTIN.MIRENIC@GMAIL.COM
+--   Application:     1000
+--   Name:            GROW
+--   Date and Time:   14:41 Friday July 7, 2023
+--   Exported By:     MMIRENIC
 --   Flashback:       0
 --   Export Type:     Component Export
 --   Manifest
---     PLUGIN: 35799520135770352457
+--     PLUGIN: 1031768036386162124
 --   Manifest End
---   Version:         23.1.1
---   Instance ID:     63113759365424
+--   Version:         22.2.1
+--   Instance ID:     697803231487492
 --
 
 begin
@@ -52,7 +47,7 @@ end;
 prompt --application/shared_components/plugins/dynamic_action/hr_mmirenic_clear_apex_item_value
 begin
 wwv_flow_imp_shared.create_plugin(
- p_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_plugin_type=>'DYNAMIC ACTION'
 ,p_name=>'HR.MMIRENIC.CLEAR_APEX_ITEM_VALUE'
 ,p_display_name=>'Clear APEX Item Value'
@@ -134,93 +129,17 @@ wwv_flow_imp_shared.create_plugin(
 '',
 '  return v_result;',
 'end ajax;'))
-,p_partial_template=>wwv_flow_string.join(wwv_flow_t_varchar2(
-'function render( p_dynamic_action in apex_plugin.t_dynamic_action',
-'               , p_plugin         in apex_plugin.t_plugin',
-'               )',
-'  return apex_plugin.t_dynamic_action_render_result',
-'as',
-'    v_result apex_plugin.t_dynamic_action_render_result;',
-'',
-'    v_attr_1 p_dynamic_action.attribute_01%type := p_dynamic_action.attribute_01; --\ items list',
-'    v_attr_2 p_dynamic_action.attribute_01%type := p_dynamic_action.attribute_02; --\ icon',
-'    v_attr_3 p_dynamic_action.attribute_01%type := p_dynamic_action.attribute_03; --\ suppress change event',
-'',
-'    v_js_attr clob;',
-'begin',
-'  --\ debug',
-'  if apex_application.g_debug then',
-'    apex_plugin_util.debug_dynamic_action( p_plugin         => p_plugin',
-'                                         , p_dynamic_action => p_dynamic_action);',
-'  end if;',
-'  apex_json.initialize_clob_output;',
-'',
-'  apex_json.open_object;',
-'    apex_json.write(''icon'',                v_attr_2);',
-'    apex_json.write(''suppressChangeEvent'', v_attr_3);',
-'    apex_json.open_array(''items'');',
-'      for i in (select item_name',
-'                     , display_as_code',
-'                     , item_label_template',
-'                     , case when POST_ELEMENT_TEXT is not null then ''Y'' else ''N'' end as has_post_text_element',
-'                  from apex_application_page_items',
-'                 where application_id  = :APP_ID',
-'                   and page_id = :APP_PAGE_ID',
-'                   and item_name in ( select column_value',
-'                                      from apex_string.split(v_attr_1, '','')',
-'                                    )',
-'      ) loop',
-'        apex_json.open_object;',
-'          apex_json.write(''itemName'', i.item_name);',
-'          apex_json.write(''itemType'', i.display_as_code);',
-'          apex_json.write(''itemLabelTemplate'', i.item_label_template);',
-'          apex_json.write(''postTextElPresent'', i.has_post_text_element);',
-'        apex_json.close_object;',
-'      end loop;',
-'    apex_json.close_array;',
-'',
-'  apex_json.close_object;',
-'',
-'  v_js_attr := apex_json.get_clob_output;',
-'  apex_json.free_output;',
-'',
-'  v_result.javascript_function := ''apexItemClearValue.fInitClearItem'';',
-'  v_result.attribute_01 := v_js_attr;',
-'',
-'  return v_result;',
-'end render;',
-'',
-'function ajax( p_dynamic_action in apex_plugin.t_dynamic_action',
-'             , p_plugin         in apex_plugin.t_plugin',
-'             )',
-'  return apex_plugin.t_dynamic_action_ajax_result',
-'as',
-'  v_result apex_plugin.t_dynamic_action_ajax_result;',
-'begin',
-'  --debug',
-'  if apex_application.g_debug then',
-'    apex_plugin_util.debug_dynamic_action( p_plugin         => p_plugin',
-'                                         , p_dynamic_action => p_dynamic_action);',
-'   end if;',
-'',
-'  apex_json.open_object;',
-'    apex_json.write(''success'', true);',
-'  apex_json.close_object;',
-'',
-'  return v_result;',
-'end ajax;'))
-,p_default_escape_mode=>'HTML'
 ,p_api_version=>2
 ,p_render_function=>'render'
 ,p_ajax_function=>'ajax'
 ,p_substitute_attributes=>true
 ,p_subscribe_plugin_settings=>true
-,p_version_identifier=>'1.0'
+,p_version_identifier=>'1.1'
 ,p_files_version=>9
 );
 wwv_flow_imp_shared.create_plugin_attribute(
- p_id=>wwv_flow_imp.id(35801306857360426825)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031768842924155101)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>1
 ,p_display_sequence=>10
@@ -240,11 +159,11 @@ wwv_flow_imp_shared.create_plugin_attribute(
 'Select list,',
 'Password,',
 'Autocomplete,',
-'Popup LOV,'))
+'Popup LOV.'))
 );
 wwv_flow_imp_shared.create_plugin_attribute(
- p_id=>wwv_flow_imp.id(35801328948334436192)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031769146722150273)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>2
 ,p_display_sequence=>20
@@ -257,8 +176,8 @@ wwv_flow_imp_shared.create_plugin_attribute(
 ,p_help_text=>'APEX icon class that will represent clear value button.'
 );
 wwv_flow_imp_shared.create_plugin_attribute(
- p_id=>wwv_flow_imp.id(35801708963404447049)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031769421715147487)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_attribute_scope=>'COMPONENT'
 ,p_attribute_sequence=>3
 ,p_display_sequence=>30
@@ -268,6 +187,35 @@ wwv_flow_imp_shared.create_plugin_attribute(
 ,p_default_value=>'N'
 ,p_is_translatable=>false
 ,p_help_text=>'If enabled, item change event will NOT be triggered.'
+);
+end;
+/
+begin
+wwv_flow_imp.g_varchar2_table := wwv_flow_imp.empty_varchar2_table;
+wwv_flow_imp.g_varchar2_table(1) := '2F2A0D0A2F2F204150455820506C7567696E3A2041504558204974656D202D20636C6561722041504558204974656D2056616C75650D0A2F2F20417574686F723A204D617274696E204D6972656E69630D0A2F2F2056657273696F6E3A20312E300D0A2A';
+wwv_flow_imp.g_varchar2_table(2) := '2F0D0A3A726F6F747B0D0A20202D2D72696768742D6E6F726D616C2D6F66667365743A333270783B0D0A20202D2D72696768742D657874656E6465642D6F66667365743A363470783B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E746169';
+wwv_flow_imp.g_varchar2_table(3) := '6E65727B0D0A2020706F736974696F6E3A206162736F6C7574653B0D0A202072696768743A20303B0D0A20206865696768743A20313030253B0D0A202077696474683A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F72';
+wwv_flow_imp.g_varchar2_table(4) := '74616E743B0D0A20206D696E2D77696474683A20323470783B0D0A2020646973706C61793A20666C65783B0D0A20206A7573746966792D636F6E74656E743A2063656E7465723B0D0A2020666C65782D646972656374696F6E3A20636F6C756D6E3B0D0A';
+wwv_flow_imp.g_varchar2_table(5) := '2020616C69676E2D6974656D733A2063656E7465723B0D0A20207A2D696E6465783A313B0D0A20206D696E2D6865696768743A20333270783B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E74656E747B0D0A2020637572736F723A20706F';
+wwv_flow_imp.g_varchar2_table(6) := '696E7465723B0D0A2020626F726465722D7261646975733A3530253B0D0A20207472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D7765626B6974';
+wwv_flow_imp.g_varchar2_table(7) := '2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D6D6F7A2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B6772';
+wwv_flow_imp.g_varchar2_table(8) := '6F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D6F2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20206F7061636974793A';
+wwv_flow_imp.g_varchar2_table(9) := '20302E353B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E74656E743A686F7665727B0D0A20207472616E73666F726D3A207363616C6528312E3335293B0D0A20206F7061636974793A20313B0D0A20202F2A6261636B67726F756E642D63';
+wwv_flow_imp.g_varchar2_table(10) := '6F6C6F723A7267626128302C20302C20302C20302E31293B2A2F0D0A2020626F726465722D7261646975733A3530253B0D0A2020666F6E742D7765696768743A203430303B0D0A7D0D0A0D0A2E696E6C696E652D70616464696E672D6E6F726D616C7B0D';
+wwv_flow_imp.g_varchar2_table(11) := '0A202070616464696E672D72696768743A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E743B0D0A7D0D0A0D0A2E696E6C696E652D70616464696E672D657874656E6465647B0D0A202070616464696E672D72';
+wwv_flow_imp.g_varchar2_table(12) := '696768743A20766172282D2D72696768742D657874656E6465642D6F66667365742921696D706F7274616E743B0D0A7D0D0A0D0A2E636F6E7461696E65722D6D617267696E2D6E6F726D616C7B0D0A6D617267696E2D72696768743A2030707821696D70';
+wwv_flow_imp.g_varchar2_table(13) := '6F7274616E743B0D0A7D0D0A2E636F6E7461696E65722D6D617267696E2D657874656E6465647B0D0A6D617267696E2D72696768743A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E743B0D0A7D';
+null;
+end;
+/
+begin
+wwv_flow_imp_shared.create_plugin_file(
+ p_id=>wwv_flow_imp.id(1031769979307141767)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
+,p_file_name=>'css/apexItemClearValue.css'
+,p_mime_type=>'text/css'
+,p_file_charset=>'utf-8'
+,p_file_content=>wwv_flow_imp.varchar2_to_blob(wwv_flow_imp.g_varchar2_table)
 );
 end;
 /
@@ -323,39 +271,10 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(35802672016740955200)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031770336237140734)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_file_name=>'js/apexItemClearValue.js'
 ,p_mime_type=>'text/javascript'
-,p_file_charset=>'utf-8'
-,p_file_content=>wwv_flow_imp.varchar2_to_blob(wwv_flow_imp.g_varchar2_table)
-);
-end;
-/
-begin
-wwv_flow_imp.g_varchar2_table := wwv_flow_imp.empty_varchar2_table;
-wwv_flow_imp.g_varchar2_table(1) := '2F2A0D0A2F2F204150455820506C7567696E3A2041504558204974656D202D20636C6561722041504558204974656D2056616C75650D0A2F2F20417574686F723A204D617274696E204D6972656E69630D0A2F2F2056657273696F6E3A20312E300D0A2A';
-wwv_flow_imp.g_varchar2_table(2) := '2F0D0A3A726F6F747B0D0A20202D2D72696768742D6E6F726D616C2D6F66667365743A333270783B0D0A20202D2D72696768742D657874656E6465642D6F66667365743A363470783B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E746169';
-wwv_flow_imp.g_varchar2_table(3) := '6E65727B0D0A2020706F736974696F6E3A206162736F6C7574653B0D0A202072696768743A20303B0D0A20206865696768743A20313030253B0D0A202077696474683A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F72';
-wwv_flow_imp.g_varchar2_table(4) := '74616E743B0D0A20206D696E2D77696474683A20323470783B0D0A2020646973706C61793A20666C65783B0D0A20206A7573746966792D636F6E74656E743A2063656E7465723B0D0A2020666C65782D646972656374696F6E3A20636F6C756D6E3B0D0A';
-wwv_flow_imp.g_varchar2_table(5) := '2020616C69676E2D6974656D733A2063656E7465723B0D0A20207A2D696E6465783A313B0D0A20206D696E2D6865696768743A20333270783B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E74656E747B0D0A2020637572736F723A20706F';
-wwv_flow_imp.g_varchar2_table(6) := '696E7465723B0D0A2020626F726465722D7261646975733A3530253B0D0A20207472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D7765626B6974';
-wwv_flow_imp.g_varchar2_table(7) := '2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D6D6F7A2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B6772';
-wwv_flow_imp.g_varchar2_table(8) := '6F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20202D6F2D7472616E736974696F6E3A207472616E73666F726D202E32732C206261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B0D0A20206F7061636974793A';
-wwv_flow_imp.g_varchar2_table(9) := '20302E353B0D0A7D0D0A0D0A2E696E6C696E652D636C6561722D636F6E74656E743A686F7665727B0D0A20207472616E73666F726D3A207363616C6528312E3335293B0D0A20206F7061636974793A20313B0D0A20206261636B67726F756E642D636F6C';
-wwv_flow_imp.g_varchar2_table(10) := '6F723A7267626128302C20302C20302C20302E31293B0D0A2020626F726465722D7261646975733A3530253B0D0A2020666F6E742D7765696768743A203430303B0D0A7D0D0A0D0A2E696E6C696E652D70616464696E672D6E6F726D616C7B0D0A202070';
-wwv_flow_imp.g_varchar2_table(11) := '616464696E672D72696768743A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E743B0D0A7D0D0A0D0A2E696E6C696E652D70616464696E672D657874656E6465647B0D0A202070616464696E672D7269676874';
-wwv_flow_imp.g_varchar2_table(12) := '3A20766172282D2D72696768742D657874656E6465642D6F66667365742921696D706F7274616E743B0D0A7D0D0A0D0A2E636F6E7461696E65722D6D617267696E2D6E6F726D616C7B0D0A6D617267696E2D72696768743A2030707821696D706F727461';
-wwv_flow_imp.g_varchar2_table(13) := '6E743B0D0A7D0D0A2E636F6E7461696E65722D6D617267696E2D657874656E6465647B0D0A6D617267696E2D72696768743A20766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E743B0D0A7D';
-null;
-end;
-/
-begin
-wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(35802674114787956902)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
-,p_file_name=>'css/apexItemClearValue.css'
-,p_mime_type=>'text/css'
 ,p_file_charset=>'utf-8'
 ,p_file_content=>wwv_flow_imp.varchar2_to_blob(wwv_flow_imp.g_varchar2_table)
 );
@@ -389,8 +308,8 @@ end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(35802682778131961838)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031771341322139087)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_file_name=>'js/apexItemClearValue.min.js'
 ,p_mime_type=>'text/javascript'
 ,p_file_charset=>'utf-8'
@@ -406,17 +325,17 @@ wwv_flow_imp.g_varchar2_table(3) := '66792D636F6E74656E743A63656E7465723B666C657
 wwv_flow_imp.g_varchar2_table(4) := '6F6E74656E747B637572736F723A706F696E7465723B626F726465722D7261646975733A3530253B7472616E736974696F6E3A7472616E73666F726D202E32732C6261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B2D7765626B';
 wwv_flow_imp.g_varchar2_table(5) := '69742D7472616E736974696F6E3A7472616E73666F726D202E32732C6261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B2D6D6F7A2D7472616E736974696F6E3A7472616E73666F726D202E32732C6261636B67726F756E642D63';
 wwv_flow_imp.g_varchar2_table(6) := '6F6C6F72202E327320656173652D6F75743B2D6F2D7472616E736974696F6E3A7472616E73666F726D202E32732C6261636B67726F756E642D636F6C6F72202E327320656173652D6F75743B6F7061636974793A2E357D2E696E6C696E652D636C656172';
-wwv_flow_imp.g_varchar2_table(7) := '2D636F6E74656E743A686F7665727B7472616E73666F726D3A7363616C6528312E3335293B6F7061636974793A313B6261636B67726F756E642D636F6C6F723A7267626128302C302C302C2E31293B626F726465722D7261646975733A3530253B666F6E';
-wwv_flow_imp.g_varchar2_table(8) := '742D7765696768743A3430307D2E696E6C696E652D70616464696E672D6E6F726D616C7B70616464696E672D72696768743A766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E747D2E696E6C696E652D7061646469';
-wwv_flow_imp.g_varchar2_table(9) := '6E672D657874656E6465647B70616464696E672D72696768743A766172282D2D72696768742D657874656E6465642D6F66667365742921696D706F7274616E747D2E636F6E7461696E65722D6D617267696E2D6E6F726D616C7B6D617267696E2D726967';
-wwv_flow_imp.g_varchar2_table(10) := '68743A3021696D706F7274616E747D2E636F6E7461696E65722D6D617267696E2D657874656E6465647B6D617267696E2D72696768743A766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E747D';
+wwv_flow_imp.g_varchar2_table(7) := '2D636F6E74656E743A686F7665727B7472616E73666F726D3A7363616C6528312E3335293B6F7061636974793A313B626F726465722D7261646975733A3530253B666F6E742D7765696768743A3430307D2E696E6C696E652D70616464696E672D6E6F72';
+wwv_flow_imp.g_varchar2_table(8) := '6D616C7B70616464696E672D72696768743A766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E747D2E696E6C696E652D70616464696E672D657874656E6465647B70616464696E672D72696768743A766172282D2D';
+wwv_flow_imp.g_varchar2_table(9) := '72696768742D657874656E6465642D6F66667365742921696D706F7274616E747D2E636F6E7461696E65722D6D617267696E2D6E6F726D616C7B6D617267696E2D72696768743A3021696D706F7274616E747D2E636F6E7461696E65722D6D617267696E';
+wwv_flow_imp.g_varchar2_table(10) := '2D657874656E6465647B6D617267696E2D72696768743A766172282D2D72696768742D6E6F726D616C2D6F66667365742921696D706F7274616E747D';
 null;
 end;
 /
 begin
 wwv_flow_imp_shared.create_plugin_file(
- p_id=>wwv_flow_imp.id(35803013483102482584)
-,p_plugin_id=>wwv_flow_imp.id(35799520135770352457)
+ p_id=>wwv_flow_imp.id(1031776133649977018)
+,p_plugin_id=>wwv_flow_imp.id(1031768036386162124)
 ,p_file_name=>'css/apexItemClearValue.min.css'
 ,p_mime_type=>'text/css'
 ,p_file_charset=>'utf-8'
