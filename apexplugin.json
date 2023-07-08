@@ -1,6 +1,6 @@
 {
   "name" : "Clear item value",
-  "version" : "1.0",
+  "version" : "1.1",
   "description" : "Dynamic action plugin for adding clear item value button to APEX item component.",
   "keywords" : ["item", "clear", "value", "session", "state"],
   "homepage" : "https://github.com/martinMirenic/APEX-plugin-clear-item-value",
